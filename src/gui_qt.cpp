@@ -1379,7 +1379,7 @@ void
 gui_mch_set_scrollbar_thumb(scrollbar_T *sb, long val, long size, long max)
 {
 	sb->wid->setValue(val);
-	sb->wid->setMaximum(max);
+	sb->wid->setMaximum(max + 1 - size);
 	sb->wid->setPageStep(size);
 
 	sb->wid->setEnabled( !(size > max) );
@@ -1394,12 +1394,10 @@ gui_mch_set_scrollbar_pos(scrollbar_T *sb, int x, int y, int width, int height)
 	switch(sb->type) {
 	case SBAR_RIGHT:
 	case SBAR_LEFT:
-		sb->wid->setLength(height);
-		sb->wid->setIndex(y);
+		sb->wid->setGeometry(y,height);
 		break;
 	default:
-		sb->wid->setLength(width);
-		sb->wid->setIndex(x);
+		sb->wid->setGeometry(x,width);
 	}
 }
 
@@ -1411,9 +1409,7 @@ gui_mch_set_scrollbar_pos(scrollbar_T *sb, int x, int y, int width, int height)
 void
 gui_mch_enable_scrollbar(scrollbar_T *sb, int flag)
 {
-	/*
 	sb->wid->setVisible(flag);
-	*/
 }
 
 /**
@@ -1435,13 +1431,13 @@ gui_mch_create_scrollbar( scrollbar_T *sb, int orient)
 
 	switch(sb->type) {
 	case SBAR_RIGHT:
-//		window->addScrollbarRight(widget);
+		window->addScrollbarRight(widget);
 		break;
 	case SBAR_LEFT:
-//		window->addScrollbarLeft(widget);
+		window->addScrollbarLeft(widget);
 		break;
 	case SBAR_BOTTOM:
-//		window->addScrollbarBottom(widget);
+		window->addScrollbarBottom(widget);
 		break;
 	}
 }

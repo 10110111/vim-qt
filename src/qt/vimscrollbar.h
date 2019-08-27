@@ -10,16 +10,11 @@ class VimScrollBar: public QScrollBar
 	Q_OBJECT
 public:
 	VimScrollBar(scrollbar_T *, Qt::Orientation, QWidget *parent=0);
-	void setIndex(int);
-	int index() const;
 	int length();
 
-	bool operator<(const VimScrollBar& other) { return ( m_index < other.m_index ); }
-
 	void setVisible(bool);
-	void setLength(int);
+	void setGeometry(int pos, int len);
 signals:
-	void indexChanged(int);
 	void visibilityChanged(bool);
 
 protected slots:
@@ -28,8 +23,6 @@ protected slots:
 
 private:
 	scrollbar_T *sb;
-	int m_index;
-	int m_length;
 };
 
 #endif

@@ -4,18 +4,34 @@
 #include <QWidget>
 #include <QGridLayout>
 
+class VimScrollBar;
+
+class ScrollBarHolder : public QWidget
+{
+	Q_OBJECT
+public:
+	ScrollBarHolder(QWidget* parent = nullptr)
+		: QWidget(parent)
+	{
+	}
+	void grab(VimScrollBar*);
+private slots:
+	void onChildVisibilityChanged();
+};
+
 class ScrollArea: public QWidget
 {
 	Q_OBJECT
 public:
 	ScrollArea(QWidget *parent=0);
 	void setWidget(QWidget *widget);
-
-public slots:
-	void setBackgroundColor(const QColor&);
+    void addScrollbarLeft(VimScrollBar* scrollbar);
+    void addScrollbarRight(VimScrollBar* scrollbar);
+    void addScrollbarBottom(VimScrollBar* scrollbar);
 
 private:
 	QWidget *m_widget;
+	ScrollBarHolder *m_leftScrollBarHolder, *m_rightScrollBarHolder, *m_bottomScrollBarHolder;
 	QGridLayout *m_layout;
 
 };

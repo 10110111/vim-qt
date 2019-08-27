@@ -1,7 +1,7 @@
 #include "vimscrollbar.moc"
 
 VimScrollBar::VimScrollBar(scrollbar_T *sbar, Qt::Orientation o, QWidget *parent)
-:QScrollBar(o, parent), sb(sbar), m_index(-1), m_length(0)
+:QScrollBar(o, parent), sb(sbar)
 {
 	connect(this, SIGNAL(valueChanged(int)),
 			this, SLOT(draggingFinished()));
@@ -25,30 +25,15 @@ void VimScrollBar::draggingFinished()
 	gui_drag_scrollbar(sb, this->value(), 0);
 }
 
-void VimScrollBar::setIndex(int idx)
+void VimScrollBar::setGeometry(int pos, int len)
 {
-	if ( idx != m_index ) {
-		m_index = idx;
-		emit indexChanged(m_index);
+	if (orientation() == Qt::Vertical) {
+		move(0, pos-1);
+		resize(sizeHint().width(), len);
+	} else {
+		move(pos, 0);
+		resize(len, sizeHint().height());
 	}
-}
-
-void VimScrollBar::setLength(int len)
-{
-	if ( len != m_length ) {
-		m_length = len;
-		emit indexChanged(m_index); // FIXME
-	}
-}
-
-int VimScrollBar::length()
-{
-	return m_length;
-}
-
-int VimScrollBar::index() const
-{
-	return m_index;
 }
 
 void VimScrollBar::setVisible(bool show)
@@ -56,8 +41,17 @@ void VimScrollBar::setVisible(bool show)
 	bool visible = isVisible();
 	QScrollBar::setVisible(show);
 
+	const auto holder = parentWidget();
+	if (show) {
+		holder->show();
+		if (orientation() == Qt::Vertical) {
+			holder->setFixedWidth(sizeHint().width());
+		} else {
+			holder->setFixedHeight(sizeHint().height());
+		}
+	}
+
 	if ( visible != show ) {
 		emit visibilityChanged(show);
 	}
 }
-

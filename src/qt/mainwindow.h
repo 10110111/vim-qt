@@ -5,7 +5,7 @@
 #include "qvimshell.h"
 #include "tabbar.h"
 #include "scrollarea.h"
-
+class VimScrollBar;
 
 class MainWindow: public QMainWindow
 {
@@ -21,6 +21,10 @@ public:
 	bool keepTabbar();
 
 	bool restoreState(const QByteArray& state, int version=0);
+
+    void addScrollbarLeft(VimScrollBar* scrollbar);
+    void addScrollbarRight(VimScrollBar* scrollbar);
+    void addScrollbarBottom(VimScrollBar* scrollbar);
 
 public slots:
 	void showTabline(bool show);

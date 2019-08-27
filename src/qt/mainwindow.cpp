@@ -19,8 +19,6 @@ MainWindow::MainWindow( gui_T* gui, QWidget *parent)
 
 	scrollarea = new ScrollArea(this);
 	scrollarea->setWidget(vimshell);
-	connect(vimshell, SIGNAL(backgroundColorChanged(QColor)),
-		scrollarea, SLOT(setBackgroundColor(QColor)) );
 
 	setCentralWidget(scrollarea);
 
@@ -108,6 +106,21 @@ bool MainWindow::restoreState(const QByteArray& state, int version)
 	}
 
 	return ret;
+}
+
+void MainWindow::addScrollbarLeft(VimScrollBar* scrollbar)
+{
+    scrollarea->addScrollbarLeft(scrollbar);
+}
+
+void MainWindow::addScrollbarRight(VimScrollBar* scrollbar)
+{
+    scrollarea->addScrollbarRight(scrollbar);
+}
+
+void MainWindow::addScrollbarBottom(VimScrollBar* scrollbar)
+{
+    scrollarea->addScrollbarBottom(scrollbar);
 }
 
 QVimShell* MainWindow::vimShell()
