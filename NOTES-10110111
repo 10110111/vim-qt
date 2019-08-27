@@ -1,0 +1,3 @@
+Make sure you use Qt4 when compiling (use --with-qt-qmake=/path/to/qmake-qt4 option if necessary). Otherwise there'll be multiple problems:
+ * Black window after resizing until Ctrl+L is pressed
+ * Not showing wildmenu when there are multiple files to autocomplete
